@@ -1,0 +1,18 @@
+<mxfile host="app.diagrams.net" modified="2026-09-23T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="etl-pipeline" name="ETL Pipeline">
+    <mxGraphModel dx="1600" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="USGS EARTHQUAKE ETL" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=30;fontStyle=1;fontColor=#102A43;" vertex="1" parent="1"><mxGeometry x="80" y="55" width="700" height="45" as="geometry"/></mxCell>
+        <mxCell id="subtitle" value="Reliable extraction  •  validated transformations  •  idempotent SQL loads" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=17;fontColor=#52667A;" vertex="1" parent="1"><mxGeometry x="80" y="103" width="1000" height="32" as="geometry"/></mxCell>
+        <mxCell id="api" value="EXTRACT&lt;br&gt;&lt;br&gt;&lt;b&gt;USGS Earthquake API&lt;/b&gt;&lt;br&gt;GeoJSON • date range • M4.5+&lt;br&gt;HTTP timeout + retries" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#E6F4F1;strokeColor=#1B8A75;strokeWidth=3;fontColor=#153E3A;fontSize=19;align=center;verticalAlign=middle;spacing=12;" vertex="1" parent="1"><mxGeometry x="80" y="200" width="360" height="220" as="geometry"/></mxCell>
+        <mxCell id="transform" value="TRANSFORM&lt;br&gt;&lt;br&gt;&lt;b&gt;pandas validation&lt;/b&gt;&lt;br&gt;UTC timestamps • missing values&lt;br&gt;coordinates • deduplication" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#EAF0FB;strokeColor=#4478C7;strokeWidth=3;fontColor=#19385F;fontSize=19;align=center;verticalAlign=middle;spacing=12;" vertex="1" parent="1"><mxGeometry x="620" y="200" width="360" height="220" as="geometry"/></mxCell>
+        <mxCell id="load" value="LOAD&lt;br&gt;&lt;br&gt;&lt;b&gt;PostgreSQL / SQLite&lt;/b&gt;&lt;br&gt;SQLAlchemy batch upsert&lt;br&gt;event ID + source version" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#FFF3E5;strokeColor=#D68A27;strokeWidth=3;fontColor=#65400F;fontSize=19;align=center;verticalAlign=middle;spacing=12;" vertex="1" parent="1"><mxGeometry x="1160" y="200" width="360" height="220" as="geometry"/></mxCell>
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#61788E;strokeWidth=4;" edge="1" parent="1" source="api" target="transform"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#61788E;strokeWidth=4;" edge="1" parent="1" source="transform" target="load"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="footer" value="CLI orchestration  •  structured logs for failures and skipped records  •  safe reruns" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=17;fontColor=#52667A;" vertex="1" parent="1"><mxGeometry x="210" y="477" width="1180" height="36" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
