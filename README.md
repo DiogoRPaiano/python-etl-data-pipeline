@@ -14,31 +14,44 @@ The [editable diagram](docs/architecture-diagram.drawio) opens in diagrams.net.
 
 ## Quick start
 
-Requires Python 3.11 or newer.
+Requires Python 3.11 or newer. Run these commands from the **repository root**, the folder containing this README and `requirements.txt`.
 
-```bash
-python -m venv .venv
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python -m src.main --database-url sqlite:///earthquakes.db
+### Windows PowerShell
+
+If your terminal is in the parent folder and the repository appears as a subfolder, enter it first with `cd .\python-etl-data-pipeline`.
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m src.main --database-url sqlite:///earthquakes.db
 ```
 
-The default query covers the previous seven complete UTC days and magnitude 4.5 or above. The database table is created automatically. To query a specific interval (both dates inclusive):
+These commands call the virtual environment directly, so activation is unnecessary. If `.venv` already exists and dependencies are installed, run only the last command.
+
+### macOS / Linux
 
 ```bash
-python -m src.main --start-date 2026-09-01 --end-date 2026-09-07 --min-magnitude 5.0 --database-url sqlite:///earthquakes.db
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m src.main --database-url sqlite:///earthquakes.db
+```
+
+The default query covers the previous seven complete UTC days and magnitude 4.5 or above. The database table is created automatically. To query a specific interval (both dates inclusive), run this in PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.main --start-date 2026-09-01 --end-date 2026-09-07 --min-magnitude 5.0 --database-url sqlite:///earthquakes.db
 ```
 
 For PostgreSQL, create an empty database, set `DATABASE_URL`, and run the same command. The schema is created automatically; [`sql/schema.sql`](sql/schema.sql) is also provided for manual setup or review.
+You do not need to open or run `schema.sql` for the SQLite quick start. Its PostgreSQL syntax will show errors if a SQL Server/MSSQL editor is selected in VS Code.
 
-```bash
-# Example; replace credentials and host with your own values.
-export DATABASE_URL='postgresql+psycopg://etl_user:password@localhost:5432/earthquakes'
-python -m src.main
+```powershell
+# PowerShell example; replace credentials and host with your own values.
+$env:DATABASE_URL = 'postgresql+psycopg://etl_user:password@localhost:5432/earthquakes'
+.\.venv\Scripts\python.exe -m src.main
 ```
 
-In PowerShell, set the variable with `$env:DATABASE_URL = 'postgresql+psycopg://...'`. Avoid committing credentials; the sample environment file is [`.env.example`](.env.example). The application reads `DATABASE_URL` from the process environment, not from `.env` automatically.
+On macOS/Linux, use `export DATABASE_URL='postgresql+psycopg://...'` and `.venv/bin/python -m src.main`. Avoid committing credentials; the sample environment file is [`.env.example`](.env.example). The application reads `DATABASE_URL` from the process environment, not from `.env` automatically.
 
 Example inspection query:
 
@@ -71,12 +84,12 @@ The API limits a query to 20,000 events. The pipeline fails clearly if the respo
 
 ## Tests
 
-```bash
-pip install -r requirements-dev.txt
-pytest -q
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
-Tests use fixtures and an in-memory SQLite database; they do not need network access or PostgreSQL.
+On macOS/Linux, use `.venv/bin/python` instead. Tests use fixtures and an in-memory SQLite database; they do not need network access or PostgreSQL.
 GitHub Actions runs the same suite on Python 3.11 and 3.12.
 
 ## License
